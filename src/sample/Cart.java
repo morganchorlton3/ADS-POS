@@ -7,12 +7,14 @@ public class Cart {
     int count, orderCount;
     double total;
     ArrayList<String> items;
+    ArrayList<String> barcodes;
 
     public Cart(int count, double total) {
         this.count = count;
         this.total = total;
         this.orderCount = 0;
         this.items= new ArrayList<String>();
+        this.barcodes= new ArrayList<String>();
     }
 
     public int getCount() {
@@ -41,5 +43,13 @@ public class Cart {
 
     public void setItems(ArrayList<String> items) {
         this.items = items;
+    }
+
+    public ArrayList<String> getBarcodes() {
+        return barcodes;
+    }
+
+    public void setBarcodes(ArrayList<String> barcodes) {
+        this.barcodes = barcodes;
     }
 }

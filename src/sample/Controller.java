@@ -1,9 +1,6 @@
 package sample;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -53,6 +50,9 @@ public class Controller implements Initializable {
                             Double itemPrice = product.getDouble("price");
                             cart.setTotal(cart.getTotal() + itemPrice);
                             cart.setCount(cart.getCount() + 1);
+                            ArrayList<String> barcodes = cart.getBarcodes();
+                            barcodes.add(product.getString("barcode"));
+                            cart.setBarcodes(barcodes);
                             ArrayList<String> items = cart.getItems();
                             items.add(product.getString("name") + "       " + product.getDouble("price"));
                             cart.setItems(items);
@@ -82,8 +82,8 @@ public class Controller implements Initializable {
         cardPayment(cart);
     }
 
-   /* public Double getPrice(String barcode) throws IOException {
-        var url = "http://ads.test/api/getPrice";
+   public boolean descStock(String barcode) throws IOException {
+        var url = "http://ads.test/api/stock-dec";
         var urlParameters = "barcode="+ barcode;
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
 
@@ -116,17 +116,17 @@ public class Controller implements Initializable {
                 }
             }
 
-            return Double.parseDouble(content.toString());
+            return true;
 
         }catch (IOException e){
             AlertHelper.itemNotFound();
             System.out.println("No Item Found");
-            return 0.0;
+            return false;
         } finally {
 
             con.disconnect();
         }
-    }*/
+    }
 
     public JSONObject getProduct(String barcode) throws IOException {
         var url = "http://ads.test/api/getPrice";
@@ -230,6 +230,21 @@ public class Controller implements Initializable {
     }
 
     private void reset(Cart cart){
+        ArrayList<String> items = cart.getItems();
+        ArrayList<String> barcodes = cart.getBarcodes();
+        try {
+            PrintWriter writer = new PrintWriter("receipt.txt", "UTF-8");
+            for (String item : items) {
+                writer.println(item);
+            }
+            for (String barcode : barcodes) {
+                descStock(barcode);
+            }
+            writer.println("Total:       £" + df2.format(cart.getTotal()));
+            writer.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         cart.setTotal(0.0);
         cart.setCount(0);
         priceLabel.setText("£0.00");
