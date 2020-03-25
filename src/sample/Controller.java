@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -18,10 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
-
-import static java.lang.Integer.parseInt;
-import static jdk.nashorn.internal.objects.NativeMath.round;
+import org.json.*;
 
 public class Controller implements Initializable {
 
@@ -52,13 +50,20 @@ public class Controller implements Initializable {
             public void handle(KeyEvent ke) {
                 if (ke.getCode().toString().equalsIgnoreCase("TAB")) {
                     try{
-                        Double itemPrice = getPrice(barcodeTXT.getText());
-                        if(itemPrice != 0.00) {
+                        JSONObject product = getProduct(barcodeTXT.getText());
+                        if(!product.getString("name").equals("error")) {
+                            Double itemPrice = product.getDouble("price");
                             cart.setTotal(cart.getTotal() + itemPrice);
-                            cart.setCount(cart.getCount()+1);
+                            cart.setCount(cart.getCount() + 1);
+                            ArrayList<String> items = cart.getItems();
+                            items.add(product.getString("name") + "       " + product.getDouble("price"));
+                            cart.setItems(items);
                             String cartTotalString = "£" + df2.format(cart.getTotal());
                             priceLabel.setText(cartTotalString);
                             countLabel.setText(String.valueOf(cart.getCount()));
+
+                        }else{
+                            AlertHelper.itemNotFound();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -95,7 +100,7 @@ public class Controller implements Initializable {
         cardPayment(cart);
     }
 
-    public Double getPrice(String barcode) throws IOException {
+   /* public Double getPrice(String barcode) throws IOException {
         var url = "http://ads.test/api/getPrice";
         var urlParameters = "barcode="+ barcode;
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
@@ -139,6 +144,52 @@ public class Controller implements Initializable {
 
             con.disconnect();
         }
+    }*/
+
+    public JSONObject getProduct(String barcode) throws IOException {
+        var url = "http://ads.test/api/getPrice";
+        var urlParameters = "barcode="+ barcode;
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+
+        try {
+
+            var myurl = new URL(url);
+            con = (HttpURLConnection) myurl.openConnection();
+
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", "Java client");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            try (var wr = new DataOutputStream(con.getOutputStream())) {
+
+                wr.write(postData);
+            }
+
+            StringBuilder content;
+
+            try (var br = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()))) {
+
+                String line;
+                content = new StringBuilder();
+
+                while ((line = br.readLine()) != null) {
+                    content.append(line);
+                    content.append(System.lineSeparator());
+                }
+            }
+            return new JSONObject(content.toString());
+
+        }catch (IOException e){
+            AlertHelper.itemNotFound();
+            System.out.println("No Item Found");
+            e.printStackTrace();
+        } finally {
+
+            con.disconnect();
+        }
+        return null;
     }
 
     public void cashPayment(Cart cart){
