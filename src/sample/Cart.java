@@ -1,12 +1,18 @@
 package sample;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cart {
-    int count;
+    int count, orderCount;
     double total;
+    ArrayList<String> items;
 
     public Cart(int count, double total) {
         this.count = count;
         this.total = total;
+        this.orderCount = 0;
+        this.items= new ArrayList<String>();
     }
 
     public int getCount() {
@@ -23,5 +29,17 @@ public class Cart {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public int getOrderCount() { return orderCount; }
+
+    public void setOrderCount(int orderCount) { this.orderCount = orderCount; }
+
+    public ArrayList<String> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<String> items) {
+        this.items = items;
     }
 }

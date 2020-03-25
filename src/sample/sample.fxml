@@ -1,11 +1,65 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.text.Text?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <TextField id="barcode" fx:id="barcodeTXT" layoutX="115.0" layoutY="28.0" />
-</GridPane>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+       <VBox alignment="center" prefHeight="108.0" prefWidth="152.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+           <HBox alignment="CENTER">
+               <Label text="Price: ">
+                    <font>
+                       <Font size="25.0" />
+                    </font>
+               </Label>
+               <Label fx:id="priceLabel" text="£0.00">
+                   <font>
+                       <Font size="25.0" />
+                   </font>
+               </Label>
+           </HBox>
+           <HBox alignment="CENTER">
+               <Label text="Item Count: ">
+                   <font>
+                       <Font size="25.0" />
+                   </font>
+               </Label>
+               <Label fx:id="countLabel" text="0">
+                   <font>
+                       <Font size="25.0" />
+                   </font>
+               </Label>
+           </HBox>
+       </VBox>
+      <VBox alignment="TOP_CENTER">
+            <TextField id="barcode" fx:id="barcodeTXT" layoutX="115.0" layoutY="28.0" style="-fx-opacity:0 " />
+      </VBox>
+       <VBox alignment="BOTTOM_CENTER" layoutY="76.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+           <Button fx:id="checkoutBTN" onAction="#checkoutHandle" text="Checkout" />
+           <HBox alignment="BOTTOM_CENTER">
+               <Button fx:id="cashBTN" onAction="#cashHandle" text="Cash" visible="false">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Button>
+               <Button fx:id="cardBTN" onAction="#cardHandle" text="Card" visible="false">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Button>
+               <Button fx:id="backBTN" onAction="#backHandle" text="Back" visible="false">
+                   <HBox.margin>
+                       <Insets left="10.0" />
+                   </HBox.margin></Button>
+           </HBox>
+         <padding>
+            <Insets bottom="20.0" />
+         </padding>
+       </VBox>
+   </children>
+</AnchorPane>
