@@ -32,7 +32,7 @@ public class Controller implements Initializable {
     public Label priceLabel, countLabel;
 
     @FXML
-    public Button checkoutBTN, cardBTN, cashBTN, backBTN ;
+    public Button cardBTN, cashBTN, backBTN ;
 
     public Cart cart =  new Cart(0,0.0);
 
@@ -41,10 +41,8 @@ public class Controller implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {// Initializes
         // everything
         //barcodeTXT.setVisible(false);
-        checkoutBTN.setFocusTraversable(false);
         cashBTN.setFocusTraversable(false);
         cardBTN.setFocusTraversable(false);
-        backBTN.setFocusTraversable(false);
 
         barcodeTXT.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent ke) {
@@ -72,22 +70,6 @@ public class Controller implements Initializable {
                 }
             }
         });
-    }
-
-    @FXML
-    private void checkoutHandle(ActionEvent event) throws IOException {
-        checkoutBTN.setVisible(false);
-        cardBTN.setVisible(true);
-        cashBTN.setVisible(true);
-        backBTN.setVisible(true);
-    }
-
-    @FXML
-    private void backHandle(ActionEvent event) throws IOException {
-        checkoutBTN.setVisible(true);
-        cardBTN.setVisible(false);
-        cashBTN.setVisible(false);
-        backBTN.setVisible(false);
     }
 
     @FXML

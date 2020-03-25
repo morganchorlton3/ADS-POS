@@ -41,25 +41,18 @@
       <VBox alignment="TOP_CENTER">
             <TextField id="barcode" fx:id="barcodeTXT" layoutX="115.0" layoutY="28.0" style="-fx-opacity:0 " />
       </VBox>
-       <VBox alignment="BOTTOM_CENTER" layoutY="76.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-           <Button fx:id="checkoutBTN" onAction="#checkoutHandle" text="Checkout" />
-           <HBox alignment="BOTTOM_CENTER">
-               <Button fx:id="cashBTN" onAction="#cashHandle" text="Cash" visible="false">
+        <HBox alignment="BOTTOM_CENTER" layoutY="76.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <Button fx:id="cashBTN" onAction="#cashHandle" text="Cash">
                <HBox.margin>
                   <Insets />
                </HBox.margin></Button>
-               <Button fx:id="cardBTN" onAction="#cardHandle" text="Card" visible="false">
+               <Button fx:id="cardBTN" onAction="#cardHandle" text="Card">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin></Button>
-               <Button fx:id="backBTN" onAction="#backHandle" text="Back" visible="false">
-                   <HBox.margin>
-                       <Insets left="10.0" />
-                   </HBox.margin></Button>
+            <padding>
+                <Insets bottom="20.0" />
+            </padding>
            </HBox>
-         <padding>
-            <Insets bottom="20.0" />
-         </padding>
-       </VBox>
    </children>
 </AnchorPane>
